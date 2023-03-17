@@ -1,0 +1,6 @@
+driver = 'SQL Server'
+server = 'sql2019sd.nourison.com'
+database = 'MySamm'
+username = 'Salsify'
+password = 'Tableau$2021'
+cnn_string= f'Driver={driver};Server={server};Database={database};UID={username}; PWD={password}'
