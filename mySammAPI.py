@@ -13,8 +13,6 @@ receiver_email = ["rachel.lin@nourison.com", "jordan.peykar@nourison.com"]
 email_password = 'obmujlewmavieoro'
 subject = 'This is an error message from MySamm API extract'
 
-api1_get_product_data_cust = update_data_cust_table()
-api2_get_site_price_history = update_price_history_table()
 
 def send_email(message):
     em = EmailMessage()
@@ -29,6 +27,7 @@ def send_email(message):
 
 try:
     update_data_cust_table()
+    update_price_history_table()
 except Exception as e:
     error = str(e)
     if len(error) > 0:
