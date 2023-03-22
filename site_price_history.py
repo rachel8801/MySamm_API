@@ -111,15 +111,39 @@ def update_price_history_table():
     with pyodbc.connect(cnn_string) as conn:
         conn.timeout=3600
         curr = conn.cursor()
-        sql = """TRUNCATE TABLE dbo.[site_price_history]"""
-        curr.execute(sql)
-        sql2 = "SET ANSI_WARNINGS off"
-        curr.execute(sql2)
-        # Insert Dataframe into SQL Server:
+        sql1 = "SET ANSI_WARNINGS off"
+        curr.execute(sql1)
+        # On average, we have 72k rows data in two weeks.
+        # Delete rows that are more than a month old to keep database in certain size
+        curr.execute(f"DELETE FROM dbo.[site_price_history] WHERE date < (GETDATE()-30)")
+        # Iterate over each row in the dataFrame:
         for index, row in df.iterrows():
-            curr.execute(f""" INSERT INTO dbo.[site_price_history]{columns_list} values{param_slots}""",
-            row['sku'], row['product_name'], row['map_price'], row['seller_name'],
-            row['website_url'], row['date'], row['price'])
+            # Check if the sku already exists in the table
+            curr.execute(f"SELECT MAX(date) FROM dbo.[site_price_history] WHERE sku = ?", row['sku'])
+            max_date = curr.fetchone()[0]
+            if max_date is None:
+                # SKU does not exist in table, insert all rows
+                curr.execute(f"""INSERT INTO dbo.[site_price_history]{columns_list} VALUES{param_slots}""",
+                             row['sku'], row['product_name'], row['map_price'], row['seller_name'],
+                             row['website_url'], row['date'], row['price'])
+            else:
+                # Check if seller_name exists for this SKU
+                curr.execute(f"SELECT COUNT(*) FROM dbo.[site_price_history] WHERE sku = ? AND seller_name = ?",
+                             row['sku'], row['seller_name'])
+                count = curr.fetchone()[0]
+
+                if count == 0:
+                    # Seller_name does not exist for this SKU, insert row
+                    curr.execute(f"""INSERT INTO dbo.[site_price_history]{columns_list} VALUES{param_slots}""",
+                                 row['sku'], row['product_name'], row['map_price'], row['seller_name'],
+                                 row['website_url'], row['date'], row['price'])
+                else:
+                    # Check if the row has a newer date than existing rows for this SKU and seller_name
+                    if row['date'] > max_date:
+                        curr.execute(f"""INSERT INTO dbo.[site_price_history]{columns_list} VALUES{param_slots}""",
+                                     row['sku'], row['product_name'], row['map_price'], row['seller_name'],
+                                     row['website_url'], row['date'], row['price'])
+  
         conn.commit()
     curr.close()
     conn.close()
