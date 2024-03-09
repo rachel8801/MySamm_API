@@ -22,7 +22,7 @@ def get_website_total_page():
     lst = []
     for params in param_list:
         encoded_params = urlencode(params)
-        conn.request("GET", "/Api/cm_product_data_cust?api_key=4mP32T61N769Bern1529&"+ encoded_params, headers=headers)
+        conn.request("GET", "/Api/cm_product_data_cust?api_key=123456789&"+ encoded_params, headers=headers)
         res = conn.getresponse()
         data = res.read()
         res_data = json.loads(data.decode("utf-8"))
@@ -58,7 +58,7 @@ for website in website_info:
     for i in range(pages):
         params = {"website": website_name, "page": page_number}
         encoded_params = urlencode(params)
-        conn.request("GET", "/Api/cm_product_data_cust?api_key=4mP32T61N769Bern1529&" + encoded_params)
+        conn.request("GET", "/Api/cm_product_data_cust?api_key=123456789&" + encoded_params)
         res = conn.getresponse()
         data = res.read()
         res_data = json.loads(data.decode("utf-8"))
