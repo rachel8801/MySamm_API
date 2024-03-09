@@ -8,7 +8,7 @@ conn = http.client.HTTPSConnection("mschannellogin.com")
 payload = ''
 headers = {'content-type': "application/json"}
 
-conn.request("GET", "/Api/produc_matrix_site_data?api_key=4mP32T61N769Bern1529", payload, headers=headers)
+conn.request("GET", "/Api/produc_matrix_site_data?api_key=123456789", payload, headers=headers)
 res = conn.getresponse()
 data = res.read()
 conn.close()
