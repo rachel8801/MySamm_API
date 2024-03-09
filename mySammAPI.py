@@ -10,7 +10,7 @@ smtp_server = "smtp.gmail.com"
 sender_email = "bi.nourison@gmail.com"
 receiver_email = ["rachel.lin@nourison.com", "jordan.peykar@nourison.com"]
 # This is the gmail app pwd, not the login pwd
-email_password = 'obmujlewmavieoro'
+email_password = 'fake_one'
 subject = 'This is an error message from MySamm API extract'
 
 
