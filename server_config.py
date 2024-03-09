@@ -1,6 +1,6 @@
 driver = 'SQL Server'
-server = 'sql2019sd.nourison.com'
+server = 'sql2019sd.company.com'
 database = 'MySamm'
 username = 'Salsify'
-password = 'Tableau$2021'
+password = 'Fakepwd'
 cnn_string= f'Driver={driver};Server={server};Database={database};UID={username}; PWD={password}'
