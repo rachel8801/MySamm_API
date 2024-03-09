@@ -7,8 +7,8 @@ from site_price_history import update_price_history_table
 # For sending the email error alert
 port = 465   # For SSL
 smtp_server = "smtp.gmail.com"
-sender_email = "bi.nourison@gmail.com"
-receiver_email = ["rachel.lin@nourison.com", "jordan.peykar@nourison.com"]
+sender_email = "someone@gmail.com"
+receiver_email = ["email"]
 # This is the gmail app pwd, not the login pwd
 email_password = 'fake_one'
 subject = 'This is an error message from MySamm API extract'
